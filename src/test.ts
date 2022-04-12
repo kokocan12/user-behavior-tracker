@@ -1,9 +1,5 @@
-function test() {
-  const a = 1;
-
-  const b = 40;
-
-  console.log('t');
+function test(a: number, b: string) {
+  return a + b;
 }
 
 export { test };

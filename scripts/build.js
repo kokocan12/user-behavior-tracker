@@ -1,8 +1,8 @@
 const elapsed = require('elapsed-time-logger');
 const chalk = require('chalk');
 
-const { buildTypescript } = require('./build-typescript');
-const { buildWebpack } = require('./build-webpack');
+const { compileTypescript } = require('./compile-typescript');
+const { buildRollup } = require('./build-rollup');
 
 class Builder {
   constructor() {
@@ -30,4 +30,4 @@ class Builder {
 
 const builder = new Builder();
 
-builder.add('build-typescript', buildTypescript).add('build-webpack', buildWebpack).run();
+builder.add('compile-typescript', compileTypescript).add('build-rollup', buildRollup).run();

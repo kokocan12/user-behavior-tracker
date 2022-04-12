@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
 
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "outDir": "./tsc-compiled"
+    "outDir": "./dist/esm"
   },
   "include": ["src/**/*.ts"]
 }

@@ -1,2 +1,8 @@
+#노드모듈제외
 node_modules
+#빌드폴더제외
 dist
+
+#데모빌드관련제외
+.cache
+demo-build

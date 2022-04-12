@@ -9,7 +9,8 @@
     "postinstall": "simple-git-hooks",
     "lint-staged": "lint-staged",
     "build": "node scripts/build.js",
-    "dev": "onchange src/**/*.ts -- yarn build"
+    "dev": "onchange src/**/*.ts -- yarn build",
+    "demo": "parcel demo/index.html --out-dir demo-build"
   },
   "lint-staged": {
     "{src}/**/*.ts": "eslint --fix"
@@ -33,7 +34,10 @@
     "exec-sh": "^0.4.0",
     "lint-staged": "^12.3.7",
     "onchange": "^7.1.0",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^2.6.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "rollup": "^2.70.1",
     "simple-git-hooks": "^2.7.0",
     "typescript": "^4.6.3"

@@ -1,0 +1,8 @@
+{
+  "name": "tracker",
+  "version": "1.0.0",
+  "description": "track a user's behavior in the browser.",
+  "main": "index.js",
+  "author": "dlgudwns <dlgudwnsl1234@gmail.com>",
+  "license": "MIT"
+}

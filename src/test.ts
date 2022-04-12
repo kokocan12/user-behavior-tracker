@@ -3,7 +3,7 @@ function test() {
 
   const b = 40;
 
-  console.log('tessdadasvfdvdft');
+  console.log('t');
 }
 
 export { test };

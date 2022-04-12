@@ -23,7 +23,7 @@ class Builder {
       elapsed.start(taskName);
       // eslint-disable-next-line no-await-in-loop
       await task();
-      elapsed.end(taskName, chalk.bold.green(`${taskName} complete`));
+      elapsed.end(taskName, chalk.green(taskName) + chalk.bold.green(' complete in'));
     }
   }
 }

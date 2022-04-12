@@ -1,9 +1,9 @@
 function test() {
   const a = 1;
 
-  const b = 10;
+  const b = 40;
 
-  console.log('test');
+  console.log('tessdadasvfdvdft');
 }
 
 export { test };

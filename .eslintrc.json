@@ -25,7 +25,8 @@
     "react/prop-types": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "import/extensions": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "env": {
     "browser": true,

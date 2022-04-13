@@ -4,18 +4,18 @@ $blue: rgba(0, 107, 255, 0.85);
 
 #root {
   width: 70%;
-  max-height: 100vh;
-  overflow-y: auto;
-  @include custom-scrollbar;
-
   header {
     background: $blue;
     position: sticky;
+    z-index: 9;
     top: 0;
-
+    text-overflow: ellipsis;
+    white-space: nowrap;
     height: 50px;
+
     .title {
       margin: 0;
+      height: 50px;
       color: #fff;
       text-align: center;
       line-height: 50px;
@@ -25,6 +25,9 @@ $blue: rgba(0, 107, 255, 0.85);
 }
 
 #list {
+  height: 100vh;
+  overflow-y: auto;
+  @include custom-scrollbar;
   .search {
     display: flex;
     flex-direction: column;
@@ -70,6 +73,113 @@ $blue: rgba(0, 107, 255, 0.85);
       .search-keyword {
         color: $blue;
         margin-right: 5px;
+      }
+    }
+  }
+
+  .list-wrap {
+    width: 100%;
+    margin-top: 15px;
+    .list-item {
+      width: 100%;
+      margin-bottom: 5px;
+      display: flex;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .image-wrap {
+        border-radius: 15px;
+        overflow: hidden;
+        margin-right: 15px;
+        width: calc(35% - 15px);
+
+        img {
+          width: 100%;
+          transition: 0.4s ease;
+        }
+      }
+      .title-wrap {
+        width: 65%;
+        h1 {
+          font-size: 19px;
+        }
+      }
+
+      &:hover {
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+#detail {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  @include custom-scrollbar;
+
+  .image-wrap {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 70%;
+    }
+  }
+
+  .contents-wrap {
+    width: 70%;
+    padding: 15px 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .button-wrap {
+    .btn {
+      display: block;
+      width: 150px;
+      height: 50px;
+      text-decoration: none;
+      text-align: center;
+      line-height: 50px;
+      color: #fff;
+      background-color: $blue;
+      outline: none;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .contents-wrap {
+      width: calc(100% - 50px);
+      padding: 15px 20px;
+      left: 0;
+      transform: translateX(0);
+    }
+
+    .mb-flex-grow {
+      flex-grow: 1;
+    }
+
+    .button-wrap {
+      width: 100%;
+      .btn {
+        width: 100%;
+        border-radius: 0;
+        margin-bottom: 0;
       }
     }
   }

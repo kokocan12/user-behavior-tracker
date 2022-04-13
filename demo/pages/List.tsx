@@ -1,31 +1,43 @@
-import React, { useMemo, FormEvent, useState } from 'react';
+import React, { useMemo, FormEvent, useState, useEffect, useRef, WheelEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import ListItem from '../components/ListItem';
 import { db } from '../db';
 
+let scrollCache: null | number = null;
 const List = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
-
   const keyword = new URLSearchParams(search).get('keyword');
 
-  const [searchInputText, setSearchInputText] = useState(keyword);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [searchInputText, setSearchInputText] = useState(keyword ?? '');
 
   const list = useMemo(() => {
-    return db.filter((item) => item.title.includes(keyword) || item.content.includes(keyword));
+    return keyword
+      ? db.filter((item) => item.title.includes(keyword) || item.content.includes(keyword))
+      : db;
   }, [keyword]);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     navigate(`/?keyword=${searchInputText}`);
   };
 
+  const onListScroll = (e: WheelEvent<HTMLDivElement>) => {
+    scrollCache = e.currentTarget.scrollTop;
+  };
+
+  useEffect(() => {
+    if (listRef.current && scrollCache) {
+      listRef.current.scrollTo(0, scrollCache);
+    }
+  }, []);
+
   return (
-    <div id="list">
-      <header>
-        <h1 className="title">리스트</h1>
-      </header>
-      <form onSubmit={onSubmit}>
+    <div ref={listRef} id="list" onScroll={onListScroll}>
+      <Header title="리스트" />
+      <form onSubmit={onSearchSubmit}>
         <div className="search">
           <div className="search-bar">
             <button className="search-btn">
@@ -45,6 +57,13 @@ const List = () => {
               <span className="result-text">검색결과 {list.length}건</span>
             </div>
           )}
+          <div className="list-wrap">
+            {list.map((item) => {
+              return (
+                <ListItem key={item.idx} idx={item.idx} title={item.title} image={item.image} />
+              );
+            })}
+          </div>
         </div>
       </form>
     </div>

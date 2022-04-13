@@ -1,0 +1,53 @@
+@import 'mixin';
+$max-width: 768px;
+
+// log style
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(50px);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+#log-view {
+  @include custom-scrollbar;
+  width: 30%;
+  padding: 15px;
+  max-height: 100vh;
+  overflow-y: auto;
+
+  .log {
+    display: flex;
+    align-items: center;
+    height: 50px;
+
+    border-radius: 15px;
+    background-color: #ebebeb;
+    padding-left: 15px;
+    animation: fadeIn 150ms ease-in-out;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+
+    .log-time {
+      margin-right: 5px;
+    }
+
+    .log-type {
+      margin-right: 5px;
+    }
+  }
+
+  @media screen and (max-width: $max-width) {
+    .log {
+      flex-direction: column;
+      padding: 15px;
+    }
+  }
+}

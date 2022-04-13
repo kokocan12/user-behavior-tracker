@@ -1,0 +1,9 @@
+@import 'mixin';
+
+#root {
+  width: 70%;
+  background-color: red;
+  max-height: 100vh;
+  overflow-y: auto;
+  @include custom-scrollbar;
+}

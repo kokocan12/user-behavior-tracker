@@ -1,0 +1,21 @@
+@mixin custom-scrollbar {
+  overflow: auto;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 0px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #aaa;
+  }
+}

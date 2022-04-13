@@ -1,6 +1,6 @@
 import React, { useMemo, FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { db } from './db';
+import { db } from '../db';
 
 const List = () => {
   const { search } = useLocation();

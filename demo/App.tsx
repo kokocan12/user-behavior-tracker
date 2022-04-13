@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import List from './List';
+import List from './pages/List';
 
 const App = () => {
   return (

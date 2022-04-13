@@ -1,16 +1,17 @@
-import React, { useMemo, FormEvent, useState, useEffect, useRef, WheelEvent } from 'react';
+import React, { useMemo, FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import ListItem from '../components/ListItem';
 import { db } from '../db';
+import useScrollCache from '../hooks/useScrollCache';
 
-let scrollCache: null | number = null;
 const List = () => {
-  const { search } = useLocation();
-  const navigate = useNavigate();
+  const { search, pathname } = useLocation();
   const keyword = new URLSearchParams(search).get('keyword');
+  const navigate = useNavigate();
 
-  const listRef = useRef<HTMLDivElement>(null);
+  const { containerRef, onScroll } = useScrollCache(pathname + search);
+
   const [searchInputText, setSearchInputText] = useState(keyword ?? '');
 
   const list = useMemo(() => {
@@ -24,18 +25,8 @@ const List = () => {
     navigate(`/?keyword=${searchInputText}`);
   };
 
-  const onListScroll = (e: WheelEvent<HTMLDivElement>) => {
-    scrollCache = e.currentTarget.scrollTop;
-  };
-
-  useEffect(() => {
-    if (listRef.current && scrollCache) {
-      listRef.current.scrollTo(0, scrollCache);
-    }
-  }, []);
-
   return (
-    <div ref={listRef} id="list" onScroll={onListScroll}>
+    <div ref={containerRef} id="list" onScroll={onScroll}>
       <Header title="리스트" />
       <form onSubmit={onSearchSubmit}>
         <div className="search">

@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, WheelEvent } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { db } from '../db';
+import useScrollCache from '../hooks/useScrollCache';
 
-const scrollCache = {};
 const Detail = () => {
+  const { pathname } = useLocation();
   const { idx } = useParams();
+  const { containerRef, onScroll } = useScrollCache(pathname);
   const information = db.find((item) => item.idx === idx);
-  const detailRef = useRef<HTMLDivElement>(null);
 
   const contentsRenderer = (contents: string) => {
     const contentsArray = contents.split('\n');
@@ -25,18 +26,8 @@ const Detail = () => {
     return result;
   };
 
-  const onDetailScroll = (e: WheelEvent<HTMLDivElement>) => {
-    scrollCache[idx] = e.currentTarget.scrollTop;
-  };
-
-  useEffect(() => {
-    if (detailRef.current && scrollCache[idx]) {
-      detailRef.current.scrollTo(0, scrollCache[idx]);
-    }
-  }, [idx]);
-
   return (
-    <div id="detail" onScroll={onDetailScroll} ref={detailRef}>
+    <div id="detail" onScroll={onScroll} ref={containerRef}>
       <Header title={information.title} />
 
       <div className="image-wrap">

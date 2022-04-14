@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('Test keyboard event', () => {
+context('키보드 이벤트 테스트', () => {
   beforeEach(() => {
     cy.demoPage();
   });

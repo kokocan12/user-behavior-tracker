@@ -20,41 +20,62 @@ type Heap = EventHeap | LogHeap;
 export const SyncEvent = 0b01;
 export const AsyncEvent = 0b10;
 
-const asyncEvents: EventHeap = [];
-const syncEvents: EventHeap = [];
-const logs: LogHeap = [];
+export const asyncEvents: EventHeap = [];
+export const syncEvents: EventHeap = [];
+export const logs: LogHeap = [];
 
 function compare(a: HeapItem, b: HeapItem) {
   const diff = a.timestamp - b.timestamp;
   return diff;
 }
 
-function siftUp(heap: Heap) {}
+function shiftUp(heap: Heap) {
+  let idx = heap.length - 1;
 
-function siftDown(heap: Heap, item: HeapItem, i: number) {
-  let index = i;
+  /**
+   *   0
+   *   1      2
+   *   3 4    5 6
+   *   78 910 1112 1314
+   */
+  while (idx > 0) {
+    const parentIdx = (idx - 1) >> 1;
+    const child = heap[idx];
+    const parent = heap[parentIdx];
+    if (parent && compare(child, parent) < 0) {
+      heap[idx] = parent;
+      heap[parentIdx] = child;
+      idx = parentIdx;
+    } else {
+      break;
+    }
+  }
+}
+
+function shiftDown(heap: Heap) {
+  let idx = 0;
   const { length } = heap;
-  const halfLength = length >> 1;
-  while (index < halfLength) {
-    const leftIndex = (index + 1) * 2 - 1;
-    const left = heap[leftIndex];
-    const rightIndex = leftIndex + 1;
-    const right = heap[rightIndex];
 
-    if (compare(left, item) < 0) {
-      if (rightIndex < length && compare(right, left) < 0) {
-        heap[index] = right;
-        heap[rightIndex] = item;
-        index = rightIndex;
+  while (idx < length) {
+    const leftIdx = idx * 2 + 1;
+    const rightIdx = leftIdx + 1;
+    const leftItem = heap[leftIdx];
+    const rightItem = heap[rightIdx];
+    const item = heap[idx];
+
+    if (leftItem && compare(leftItem, item) < 0) {
+      if (rightItem && compare(rightItem, leftItem) < 0) {
+        heap[idx] = rightItem;
+        heap[rightIdx] = item;
+        idx = rightIdx;
       } else {
-        heap[index] = left;
-        heap[leftIndex] = item;
-        index = leftIndex;
+        heap[idx] = leftItem;
+        heap[leftIdx] = item;
+        idx = leftIdx;
       }
-    } else if (rightIndex < length && compare(right, item) < 0) {
-      heap[index] = right;
-      heap[rightIndex] = item;
-      index = rightIndex;
+    } else if (rightItem && compare(rightItem, item) < 0) {
+      heap[idx] = rightItem;
+      heap[rightIdx] = item;
     } else {
       return;
     }
@@ -64,10 +85,10 @@ function siftDown(heap: Heap, item: HeapItem, i: number) {
 export function pushEvent({ evt, timestamp, type }: TEvent) {
   if (type === AsyncEvent) {
     asyncEvents.push({ evt, timestamp, type });
-    siftUp(asyncEvents);
+    shiftUp(asyncEvents);
   } else if (type === SyncEvent) {
     syncEvents.push({ evt, timestamp, type });
-    siftUp(syncEvents);
+    shiftUp(syncEvents);
   }
 }
 
@@ -81,7 +102,7 @@ function peek(heap: Heap) {
   return heap[0];
 }
 
-function pop(heap: Heap) {
+export function pop(heap: Heap) {
   if (!heap[0]) {
     return null;
   }
@@ -90,7 +111,7 @@ function pop(heap: Heap) {
   const last = heap.pop();
   if (last !== first) {
     heap[0] = last;
-    siftDown(heap, last, 0);
+    shiftDown(heap);
   }
 
   return first;

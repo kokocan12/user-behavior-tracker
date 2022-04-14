@@ -1,6 +1,7 @@
 import { onKeyUp } from './keyboard';
+import { TLog } from './scheduler';
 
-function track(element: HTMLElement, callback?: Function) {
+function track(element: HTMLElement, callback?: (log: TLog) => void) {
   if (element) {
     window.addEventListener('keyup', onKeyUp);
   }

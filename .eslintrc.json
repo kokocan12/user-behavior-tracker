@@ -26,7 +26,9 @@
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "no-param-reassign": "off",
+    "no-bitwise": "off"
   },
   "env": {
     "browser": true,

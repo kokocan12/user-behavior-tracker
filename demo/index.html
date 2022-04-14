@@ -19,20 +19,6 @@
         </div>
       </div>
     </main>
-    <script src="../dist/bundle.js"></script>
     <script type="module" src="./index.tsx"></script>
-    <script>
-      const logView = document.getElementById('log-view');
-      const callback = (log) => {
-        logView.innerHTML += `<div class="log">
-                                <div class="log-time">${log.time}</div>
-                                <div class="log-type">${log.type}</div>
-                                <div class="log-content">${log.contents}</div>
-                              </div>`;
-      };
-
-      // Tracker.tack(HTMLElement, [callback])
-      Tracker.track(document.getElementById('root'), callback);
-    </script>
   </body>
 </html>

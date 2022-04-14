@@ -9,9 +9,12 @@
     "postinstall": "simple-git-hooks",
     "lint-staged": "lint-staged",
     "build": "node scripts/build.js",
-    "dev": "onchange src/**/*.ts -- yarn build",
     "demo": "parcel demo/index.html --out-dir demo-build",
-    "test": "cypress open"
+    "test": "cypress open",
+    "dev": "yarn build && npm-run-all --parallel dev:*",
+    "dev:watch": "onchange src/**/*.ts -- yarn build",
+    "dev:demo": "yarn demo",
+    "dev:test": "yarn test"
   },
   "lint-staged": {
     "{src}/**/*.ts": "eslint --fix"
@@ -36,6 +39,7 @@
     "eslint-plugin-react": "^7.29.4",
     "exec-sh": "^0.4.0",
     "lint-staged": "^12.3.7",
+    "npm-run-all": "^4.1.5",
     "onchange": "^7.1.0",
     "parcel-bundler": "^1.12.5",
     "prettier": "^2.6.2",

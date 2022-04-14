@@ -1,3 +1,9 @@
-import { test } from './test';
+import { onKeyUp } from './keyboard';
 
-export { test };
+function track(element: HTMLElement, callback?: Function) {
+  if (element) {
+    window.addEventListener('keyup', onKeyUp);
+  }
+}
+
+export { track };

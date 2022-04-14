@@ -10,7 +10,7 @@
     "lint-staged": "lint-staged",
     "build": "node scripts/build.js",
     "dev": "onchange src/**/*.ts -- yarn build",
-    "demo": "yarn build & parcel demo/index.html --out-dir demo-build"
+    "demo": "parcel demo/index.html --out-dir demo-build"
   },
   "lint-staged": {
     "{src}/**/*.ts": "eslint --fix"

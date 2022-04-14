@@ -6,3 +6,6 @@ dist
 #데모빌드관련제외
 .cache
 demo-build
+
+#테스팅
+cypress

@@ -10,7 +10,8 @@
     "lint-staged": "lint-staged",
     "build": "node scripts/build.js",
     "dev": "onchange src/**/*.ts -- yarn build",
-    "demo": "parcel demo/index.html --out-dir demo-build"
+    "demo": "parcel demo/index.html --out-dir demo-build",
+    "test": "cypress open"
   },
   "lint-staged": {
     "{src}/**/*.ts": "eslint --fix"
@@ -25,6 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "chalk": "^4.1.1",
+    "cypress": "^9.5.4",
     "elapsed-time-logger": "^1.1.7",
     "eslint": "^8.13.0",
     "eslint-config-airbnb-base": "^15.0.0",

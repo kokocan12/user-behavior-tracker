@@ -20,12 +20,23 @@ type Heap = EventHeap | LogHeap;
 export const SyncEvent = 0b01;
 export const AsyncEvent = 0b10;
 
-export const asyncEvents: EventHeap = [];
+/**
+ *  Events that need to be dealt with immediately are put into syncEvents.
+ *  Events that do not need to be dealt with immediately are put into asyncEvents.
+ *  Events are moved to logs after processing, and finally logs are handled by logHandler.
+ *  logs are always handled asynchronously.
+ */
 export const syncEvents: EventHeap = [];
+export const asyncEvents: EventHeap = [];
 export const logs: LogHeap = [];
 
-// True when the workLoop is running
-let workTF = false;
+// the logHandler corresponds to the callback of track function.
+let logHandler: (log: TLog) => void = () => {};
+
+// when workMode is SyncMode, syncEvents should be dealt with immediately.
+const SyncMode = 0b01;
+const AsyncMode = 0b10;
+let workMode = AsyncMode;
 
 const yieldInterval = 20;
 let deadline = 0;
@@ -42,25 +53,28 @@ function shouldYield() {
 }
 
 function workLoop(deadline_?: IdleDeadline) {
-  workTF = true;
   if (!deadline_) {
     deadline_ = { timeRemaining: shouldYield, didTimeout: false };
   }
 
-  while (deadline_.timeRemaining()) {
+  /**
+   *  deadline doesn't matter in SyncMode
+   *  when workMode is SyncMode, handle all syncEvents.
+   */
+  while (workMode === SyncMode || deadline_.timeRemaining()) {
     let work = null;
-    // check out the sync events first
+    // deal with sync events first
     if (peek(syncEvents)) {
       work = pop(syncEvents);
       handleEvent(work);
     }
-    // and check async events
-    else if (peek(asyncEvents)) {
+    // and deal with async events
+    else if (workMode === AsyncMode && peek(asyncEvents)) {
       work = pop(asyncEvents);
       handleEvent(work);
     }
-    // finally check the logs
-    else if (peek(logs)) {
+    // finally deal with logs
+    else if (workMode === AsyncMode && peek(logs)) {
       work = pop(logs);
       handleLog(work);
     }
@@ -68,13 +82,14 @@ function workLoop(deadline_?: IdleDeadline) {
     if (work === null) break;
   }
 
-  // check remain tasks
+  /**
+   *  The rest of the tasks are dealt asynchronously.
+   */
   if (peek(syncEvents) || peek(asyncEvents) || peek(logs)) {
     port.postMessage(null);
-  } else {
-    // END
-    workTF = false;
   }
+  // END
+  workMode = AsyncMode;
 }
 
 // for polyfill ( Safari does not support requestIdleCallback API. )
@@ -88,7 +103,7 @@ const workUntilDeadline =
         workLoop();
       };
 
-messageChannel.port1.addEventListener('message', workUntilDeadline);
+messageChannel.port1.onmessage = workUntilDeadline;
 
 function compare(a: HeapItem, b: HeapItem) {
   const diff = a.timestamp - b.timestamp;
@@ -158,21 +173,30 @@ export function pushEvent({ evt, timestamp, type }: TEvent) {
   if (type === AsyncEvent) {
     asyncEvents.push({ evt, timestamp, type });
     shiftUp(asyncEvents);
-    if (!workTF) port.postMessage(null);
+
+    port.postMessage(null);
   } else if (type === SyncEvent) {
     syncEvents.push({ evt, timestamp, type });
     shiftUp(syncEvents);
-    if (!workTF) port.postMessage(null);
+    workMode = SyncMode;
+    workLoop();
   }
 }
 
 function handleLog(log: TLog) {
-  //
+  logHandler(log);
 }
 
-function pushLog({ contents, time, timestamp, type }: TLog) {}
+function pushLog(log: TLog) {
+  logs.push(log);
+  shiftUp(logs);
+}
 
-function peek(heap: Heap) {
+export function bindLogHandler(logHandler_: (log: TLog) => void) {
+  logHandler = logHandler_;
+}
+
+export function peek(heap: Heap) {
   if (!heap[0]) {
     return null;
   }

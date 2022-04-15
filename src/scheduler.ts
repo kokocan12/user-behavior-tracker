@@ -24,6 +24,72 @@ export const asyncEvents: EventHeap = [];
 export const syncEvents: EventHeap = [];
 export const logs: LogHeap = [];
 
+// True when the workLoop is running
+let workTF = false;
+
+const yieldInterval = 20;
+let deadline = 0;
+
+const messageChannel = new MessageChannel();
+const port = messageChannel.port2;
+
+function getCurrentTime() {
+  return new Date().valueOf();
+}
+
+function shouldYield() {
+  return deadline - getCurrentTime();
+}
+
+function workLoop(deadline_?: IdleDeadline) {
+  workTF = true;
+  if (!deadline_) {
+    deadline_ = { timeRemaining: shouldYield, didTimeout: false };
+  }
+
+  while (deadline_.timeRemaining()) {
+    let work = null;
+    // check out the sync events first
+    if (peek(syncEvents)) {
+      work = pop(syncEvents);
+      handleEvent(work);
+    }
+    // and check async events
+    else if (peek(asyncEvents)) {
+      work = pop(asyncEvents);
+      handleEvent(work);
+    }
+    // finally check the logs
+    else if (peek(logs)) {
+      work = pop(logs);
+      handleLog(work);
+    }
+
+    if (work === null) break;
+  }
+
+  // check remain tasks
+  if (peek(syncEvents) || peek(asyncEvents) || peek(logs)) {
+    port.postMessage(null);
+  } else {
+    // END
+    workTF = false;
+  }
+}
+
+// for polyfill ( Safari does not support requestIdleCallback API. )
+const workUntilDeadline =
+  typeof requestIdleCallback === 'function'
+    ? () => {
+        requestIdleCallback(workLoop);
+      }
+    : () => {
+        deadline = getCurrentTime() + yieldInterval;
+        workLoop();
+      };
+
+messageChannel.port1.addEventListener('message', workUntilDeadline);
+
 function compare(a: HeapItem, b: HeapItem) {
   const diff = a.timestamp - b.timestamp;
   return diff;
@@ -82,14 +148,26 @@ function shiftDown(heap: Heap) {
   }
 }
 
+function handleEvent(event: TEvent) {
+  const contents = event.type === SyncEvent ? 'sync' : 'async';
+
+  pushLog({ type: '', contents, time: '', timestamp: event.timestamp });
+}
+
 export function pushEvent({ evt, timestamp, type }: TEvent) {
   if (type === AsyncEvent) {
     asyncEvents.push({ evt, timestamp, type });
     shiftUp(asyncEvents);
+    if (!workTF) port.postMessage(null);
   } else if (type === SyncEvent) {
     syncEvents.push({ evt, timestamp, type });
     shiftUp(syncEvents);
+    if (!workTF) port.postMessage(null);
   }
+}
+
+function handleLog(log: TLog) {
+  //
 }
 
 function pushLog({ contents, time, timestamp, type }: TLog) {}

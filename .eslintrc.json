@@ -28,7 +28,8 @@
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
     "no-param-reassign": "off",
-    "no-bitwise": "off"
+    "no-bitwise": "off",
+    "no-use-before-define": "off"
   },
   "env": {
     "browser": true,

@@ -16,9 +16,14 @@ const logView = document.getElementById('log-view');
 
 // track(HTMLElement, [callback])
 track(logView, ({ time, type, contents }) => {
-  logView.innerHTML += `<div class="log">
-                          <div class="log-time">${time}</div>
-                          <div class="log-type">${type}</div>
-                          <div class="log-content">${contents}</div>
-                        </div>`;
+  const logContainer = document.createElement('div');
+
+  logContainer.innerHTML = `<div class="log">
+                              <div class="log-time">${time}</div>
+                              <div class="log-type">${type}</div>
+                              <div class="log-content">${contents}</div>
+                            </div>`;
+  logView.appendChild(logContainer.children[0]);
+
+  logView.scrollTo(0, logView.scrollHeight);
 });

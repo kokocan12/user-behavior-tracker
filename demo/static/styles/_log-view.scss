@@ -23,7 +23,7 @@ $max-width: 768px;
   .log {
     display: flex;
     align-items: center;
-    height: 50px;
+    min-height: 50px;
 
     border-radius: 15px;
     background-color: #ebebeb;

@@ -10,6 +10,8 @@ import {
   bindLogHandler,
 } from '../../src/scheduler';
 
+const TEST = 'test';
+
 context('Scheduler', () => {
   beforeEach(() => {
     // heap 초기화
@@ -26,11 +28,11 @@ context('Scheduler', () => {
 
   it('push 함수 정확도 테스트', () => {
     const events = [
-      { evt: new Event('click'), timestamp: 1000, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1500, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1200, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 800, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1300, type: AsyncEvent },
+      { evt: new Event(TEST), timestamp: 1000, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1500, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1200, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 800, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1300, syncType: AsyncEvent, eventType: TEST },
     ];
 
     events.forEach((event) => {
@@ -50,15 +52,15 @@ context('Scheduler', () => {
 
   it('pop 함수 정확도 테스트', () => {
     const events = [
-      { evt: new Event('click'), timestamp: 1000, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1500, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1200, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 800, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 750, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1350, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 12000, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 10000, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 1300, type: AsyncEvent },
+      { evt: new Event(TEST), timestamp: 1000, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1500, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1200, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 800, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 750, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1350, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 12000, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 10000, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 1300, syncType: AsyncEvent, eventType: TEST },
     ];
 
     events.forEach((event) => {
@@ -79,15 +81,15 @@ context('Scheduler', () => {
 
   it('work loop handler 정확도 테스트', async () => {
     const events = [
-      { evt: new Event('click'), timestamp: 100, type: SyncEvent },
-      { evt: new Event('click'), timestamp: 200, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 300, type: SyncEvent },
-      { evt: new Event('click'), timestamp: 400, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 500, type: SyncEvent },
-      { evt: new Event('click'), timestamp: 650, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 550, type: SyncEvent },
-      { evt: new Event('click'), timestamp: 750, type: AsyncEvent },
-      { evt: new Event('click'), timestamp: 700, type: AsyncEvent },
+      { evt: new Event(TEST), timestamp: 100, syncType: SyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 200, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 300, syncType: SyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 400, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 500, syncType: SyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 650, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 550, syncType: SyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 750, syncType: AsyncEvent, eventType: TEST },
+      { evt: new Event(TEST), timestamp: 700, syncType: AsyncEvent, eventType: TEST },
     ];
 
     const result = [];

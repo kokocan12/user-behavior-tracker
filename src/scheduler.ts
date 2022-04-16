@@ -1,7 +1,10 @@
+import { handleKeyboardEvent, KEYBOARD_EVENT } from './keyboard';
+
 export interface TEvent {
   evt: Event;
   timestamp: number;
-  type: number;
+  syncType: number;
+  eventType: string;
 }
 
 export interface TLog {
@@ -17,9 +20,8 @@ type LogHeap = TLog[];
 type HeapItem = TEvent | TLog;
 type Heap = EventHeap | LogHeap;
 
-export const SyncEvent = 0b01;
-export const AsyncEvent = 0b10;
-
+export const SyncEvent = 0b1;
+export const AsyncEvent = 0b0;
 /**
  *  Events that need to be dealt with immediately are put into syncEvents.
  *  Events that do not need to be dealt with immediately are put into asyncEvents.
@@ -34,8 +36,8 @@ export const logs: LogHeap = [];
 let logHandler: (log: TLog) => void = () => {};
 
 // when workMode is SyncMode, syncEvents should be dealt with immediately.
-const SyncMode = 0b01;
-const AsyncMode = 0b10;
+const SyncMode = 0b10;
+const AsyncMode = 0b11;
 let workMode = AsyncMode;
 
 const yieldInterval = 20;
@@ -44,17 +46,17 @@ let deadline = 0;
 const messageChannel = new MessageChannel();
 const port = messageChannel.port2;
 
-function getCurrentTime() {
+export function getCurrentTime() {
   return new Date().valueOf();
 }
 
-function shouldYield() {
+function shouldContinue() {
   return deadline - getCurrentTime();
 }
 
 function workLoop(deadline_?: IdleDeadline) {
   if (!deadline_) {
-    deadline_ = { timeRemaining: shouldYield, didTimeout: false };
+    deadline_ = { timeRemaining: shouldContinue, didTimeout: false };
   }
 
   /**
@@ -164,19 +166,27 @@ function shiftDown(heap: Heap) {
 }
 
 function handleEvent(event: TEvent) {
-  const contents = event.type === SyncEvent ? 'sync' : 'async';
+  switch (event.eventType) {
+    case KEYBOARD_EVENT:
+      pushLog(handleKeyboardEvent(event));
+      break;
 
-  pushLog({ type: '', contents, time: '', timestamp: event.timestamp });
+    // for test
+    default: {
+      const contents = event.syncType === SyncEvent ? 'sync' : 'async';
+      pushLog({ type: '', contents, time: '', timestamp: event.timestamp });
+    }
+  }
 }
 
-export function pushEvent({ evt, timestamp, type }: TEvent) {
-  if (type === AsyncEvent) {
-    asyncEvents.push({ evt, timestamp, type });
+export function pushEvent({ evt, timestamp, syncType, eventType }: TEvent) {
+  if (syncType === AsyncEvent) {
+    asyncEvents.push({ evt, timestamp, syncType, eventType });
     shiftUp(asyncEvents);
 
     port.postMessage(null);
-  } else if (type === SyncEvent) {
-    syncEvents.push({ evt, timestamp, type });
+  } else if (syncType === SyncEvent) {
+    syncEvents.push({ evt, timestamp, syncType, eventType });
     shiftUp(syncEvents);
     workMode = SyncMode;
     workLoop();

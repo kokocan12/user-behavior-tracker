@@ -79,7 +79,7 @@ context('Scheduler', () => {
     expect(orderedEvents).deep.equal([750, 800, 1000, 1200, 1300, 1350, 1500, 10000, 12000]);
   });
 
-  it('work loop handler 정확도 테스트', async () => {
+  it('work loop handler 정확도 테스트', () => {
     const events = [
       { evt: new Event(TEST), timestamp: 100, syncType: SyncEvent, eventType: TEST },
       { evt: new Event(TEST), timestamp: 200, syncType: AsyncEvent, eventType: TEST },
@@ -101,18 +101,18 @@ context('Scheduler', () => {
       pushEvent(event);
     });
 
-    await cy.wait(150);
-
-    expect(result).deep.equal([
-      { contents: 'sync', timestamp: 100 },
-      { contents: 'async', timestamp: 200 },
-      { contents: 'sync', timestamp: 300 },
-      { contents: 'async', timestamp: 400 },
-      { contents: 'sync', timestamp: 500 },
-      { contents: 'sync', timestamp: 550 },
-      { contents: 'async', timestamp: 650 },
-      { contents: 'async', timestamp: 700 },
-      { contents: 'async', timestamp: 750 },
-    ]);
+    cy.wait(150).then(() => {
+      expect(result).deep.equal([
+        { contents: 'sync', timestamp: 100 },
+        { contents: 'async', timestamp: 200 },
+        { contents: 'sync', timestamp: 300 },
+        { contents: 'async', timestamp: 400 },
+        { contents: 'sync', timestamp: 500 },
+        { contents: 'sync', timestamp: 550 },
+        { contents: 'async', timestamp: 650 },
+        { contents: 'async', timestamp: 700 },
+        { contents: 'async', timestamp: 750 },
+      ]);
+    });
   });
 });

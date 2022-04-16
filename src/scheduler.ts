@@ -1,3 +1,4 @@
+import { CLICK_EVENT, handleClickEvent } from './click';
 import { handleKeyboardEvent, KEYBOARD_EVENT } from './keyboard';
 
 export interface TEvent {
@@ -171,6 +172,10 @@ function handleEvent(event: TEvent) {
       handleKeyboardEvent(event, pushLog);
       break;
 
+    case CLICK_EVENT:
+      handleClickEvent(event, pushLog);
+      break;
+
     // for test
     default: {
       const contents = event.syncType === SyncEvent ? 'sync' : 'async';
@@ -202,8 +207,10 @@ function pushLog(log: TLog) {
   shiftUp(logs);
 }
 
-export function bindLogHandler(logHandler_: (log: TLog) => void) {
-  logHandler = logHandler_;
+export function bindLogHandler($logHandler: (log: TLog) => void) {
+  if (typeof $logHandler === 'function') {
+    logHandler = $logHandler;
+  }
 }
 
 export function peek(heap: Heap) {

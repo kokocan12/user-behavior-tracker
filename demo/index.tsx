@@ -15,7 +15,7 @@ root.render(
 const logView = document.getElementById('log-view');
 
 // track(HTMLElement, [callback])
-track(logView, ({ time, type, contents }) => {
+track(document.getElementById('root'), ({ time, type, contents }) => {
   const logContainer = document.createElement('div');
 
   logContainer.innerHTML = `<div class="log">

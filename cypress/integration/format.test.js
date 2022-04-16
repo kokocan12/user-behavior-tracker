@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 import { timestampToTimestring } from '../../src/format';
 import moment from 'moment';
 

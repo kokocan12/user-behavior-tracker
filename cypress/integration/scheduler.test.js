@@ -12,7 +12,7 @@ import {
 
 const TEST = 'test';
 
-context('Scheduler', () => {
+context('Scheduler 테스트', () => {
   beforeEach(() => {
     // heap 초기화
     while (syncEvents.length) {

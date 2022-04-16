@@ -168,7 +168,7 @@ function shiftDown(heap: Heap) {
 function handleEvent(event: TEvent) {
   switch (event.eventType) {
     case KEYBOARD_EVENT:
-      pushLog(handleKeyboardEvent(event));
+      handleKeyboardEvent(event, pushLog);
       break;
 
     // for test

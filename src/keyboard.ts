@@ -2,13 +2,15 @@ import { timestampToTimestring } from './format';
 import { getCurrentTime, pushEvent, SyncEvent, TEvent, TLog } from './scheduler';
 
 const INPUT_TAG = 'INPUT';
+const ENTER = 'Enter';
 export const KEYBOARD_EVENT = 'keyboard';
 
 let debounceTimer: any = null;
 
 export function onKeyUp(evt: KeyboardEvent) {
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
+
+  const callback = () => {
     const focusedInput = getFocusedInput();
     if (focusedInput) {
       pushEvent({
@@ -18,7 +20,13 @@ export function onKeyUp(evt: KeyboardEvent) {
         eventType: KEYBOARD_EVENT,
       });
     }
-  }, 300);
+  };
+
+  if (evt.key === ENTER) {
+    callback();
+  } else {
+    debounceTimer = setTimeout(callback, 300);
+  }
 }
 
 function getFocusedInput() {
@@ -29,7 +37,10 @@ function getFocusedInput() {
   return null;
 }
 
-export function handleKeyboardEvent({ evt, timestamp }: TEvent): TLog {
+export function handleKeyboardEvent({ evt, timestamp }: TEvent, callback: (log: TLog) => void) {
   const contents = (evt.target as HTMLInputElement).value;
-  return { contents, timestamp, type: KEYBOARD_EVENT, time: timestampToTimestring(timestamp) };
+
+  if (contents) {
+    callback({ contents, timestamp, type: KEYBOARD_EVENT, time: timestampToTimestring(timestamp) });
+  }
 }

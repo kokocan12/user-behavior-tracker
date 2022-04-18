@@ -1,5 +1,6 @@
 import { CLICK_EVENT, handleClickEvent } from './click';
 import { handleKeyboardEvent, KEYBOARD_EVENT } from './keyboard';
+import { FOCUS_EVENT, handleFocusEvent } from './visibility';
 
 export interface TEvent {
   evt: Event;
@@ -174,6 +175,10 @@ function handleEvent(event: TEvent) {
 
     case CLICK_EVENT:
       handleClickEvent(event, pushLog);
+      break;
+
+    case FOCUS_EVENT:
+      handleFocusEvent(event, pushLog);
       break;
 
     // for test

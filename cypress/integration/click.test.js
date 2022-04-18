@@ -9,7 +9,7 @@ context('click 테스트', () => {
       cy.wait(100);
 
       cy.get('.log').then((logs) => {
-        cy.wrap(logs[0]).contains('page navigate /1');
+        cy.wrap(logs[0]).contains('page-navigate /1');
       });
     });
   });
@@ -24,7 +24,7 @@ context('click 테스트', () => {
         cy.wait(100);
 
         cy.get('.log').then((logs) => {
-          cy.wrap(logs[1]).contains('page navigate /');
+          cy.wrap(logs[1]).contains('page-navigate /');
         });
       });
     });
@@ -44,7 +44,7 @@ context('click 테스트', () => {
           cy.get('.log')
             .should('have.length', 3)
             .then((logs) => {
-              cy.wrap(logs[2]).contains('page navigate /1');
+              cy.wrap(logs[2]).contains('page-navigate /1');
             });
         });
       });

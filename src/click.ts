@@ -6,7 +6,7 @@ import { timestampToTimestring } from './format';
 import { AsyncEvent, getCurrentTime, pushEvent, TEvent, TLog } from './scheduler';
 
 export const CLICK_EVENT = 'click';
-const PAGE_NAVIGATE = 'page navigate';
+const PAGE_NAVIGATE = 'page-navigate';
 let lastVisitedPath = window.location.pathname;
 export function onClick(evt: PointerEvent) {
   pushEvent({ evt, timestamp: getCurrentTime(), eventType: CLICK_EVENT, syncType: AsyncEvent });

@@ -6,10 +6,10 @@ let visibilityChangeCountBuffer = 0;
 let lastFocusState = true;
 export const FOCUS_EVENT = 'focus';
 const FOCUS_CHANGE = 'focus-change';
-const MOVE_TO_ANOTHER_TAB = 'move-to-another-tab';
-const MOVE_TO_CURRENT_TAB = 'move-to-current-tab';
-const MOVE_TO_ANOTHER_WINDOW = 'move-to-another-window';
-const MOVE_TO_CURRENT_WINDOW = 'move-to-current-window';
+const MOVE_TO_ANOTHER_TAB = '[move-to-another-tab]';
+const MOVE_TO_CURRENT_TAB = '[move-to-current-tab]';
+const MOVE_TO_ANOTHER_WINDOW = '[move-to-another-window]';
+const MOVE_TO_CURRENT_WINDOW = '[move-to-current-window]';
 
 export function onVisibilityChange() {
   visibilityChangeCountBuffer += 1;

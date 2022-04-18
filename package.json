@@ -17,7 +17,7 @@
     "dev:test": "yarn test"
   },
   "lint-staged": {
-    "{src}/**/*.ts": "eslint --fix"
+    "src/**/*.ts": "eslint --fix"
   },
   "simple-git-hooks": {
     "pre-commit": "yarn lint-staged"

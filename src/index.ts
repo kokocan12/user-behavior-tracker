@@ -9,8 +9,7 @@ function track(element: HTMLElement, callback?: (log: TLog) => void) {
     element.addEventListener('click', onClick);
     window.addEventListener('popstate', onClick);
     document.addEventListener('visibilitychange', onVisibilityChange);
-    window.addEventListener('load', checkFocusChange);
-
+    checkFocusChange();
     bindLogHandler(callback);
   }
 }

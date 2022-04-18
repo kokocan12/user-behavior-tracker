@@ -5,6 +5,7 @@ let visibilityChangeCount = 0;
 let visibilityChangeCountBuffer = 0;
 let lastFocusState = true;
 export const FOCUS_EVENT = 'focus';
+const FOCUS_CHANGE = 'focus-change';
 const MOVE_TO_ANOTHER_TAB = 'move-to-another-tab';
 const MOVE_TO_CURRENT_TAB = 'move-to-current-tab';
 const MOVE_TO_ANOTHER_WINDOW = 'move-to-another-window';
@@ -29,22 +30,24 @@ export function handleFocusEvent({ timestamp }: TEvent, callback: (log: TLog) =>
   if (lastFocusState !== currentFocusState) {
     if (currentFocusState) {
       callback({
-        contents: '',
-        timestamp,
-        type:
+        contents:
           visibilityChangeCount !== visibilityChangeCountBuffer
             ? MOVE_TO_CURRENT_TAB
             : MOVE_TO_CURRENT_WINDOW,
+        timestamp,
+        type: FOCUS_CHANGE,
+
         time: timestampToTimestring(timestamp),
       });
     } else {
       callback({
-        contents: '',
-        timestamp,
-        type:
+        contents:
           visibilityChangeCount !== visibilityChangeCountBuffer
             ? MOVE_TO_ANOTHER_TAB
             : MOVE_TO_ANOTHER_WINDOW,
+        timestamp,
+        type: FOCUS_CHANGE,
+
         time: timestampToTimestring(timestamp),
       });
     }

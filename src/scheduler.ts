@@ -42,7 +42,7 @@ const SyncMode = 0b10;
 const AsyncMode = 0b11;
 let workMode = AsyncMode;
 
-const yieldInterval = 20;
+const YIELD_INTERVAL = 20;
 let deadline = 0;
 
 const messageChannel = new MessageChannel();
@@ -103,7 +103,7 @@ const workUntilDeadline =
         requestIdleCallback(workLoop);
       }
     : () => {
-        deadline = getCurrentTime() + yieldInterval;
+        deadline = getCurrentTime() + YIELD_INTERVAL;
         workLoop();
       };
 

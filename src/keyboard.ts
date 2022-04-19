@@ -1,5 +1,5 @@
 import { timestampToTimestring } from './format';
-import { getCurrentTime, pushEvent, SyncEvent, TEvent, TLog } from './scheduler';
+import { AsyncEvent, getCurrentTime, pushEvent, TEvent, TLog } from './scheduler';
 
 const INPUT_TAG = 'INPUT';
 const ENTER = 'Enter';
@@ -16,7 +16,7 @@ export function onKeyUp(evt: KeyboardEvent) {
       pushEvent({
         evt: { ...evt, target: focusedInput },
         timestamp: getCurrentTime(),
-        syncType: SyncEvent,
+        syncType: AsyncEvent,
         eventType: KEYBOARD_EVENT,
       });
     }

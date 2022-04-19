@@ -7,6 +7,7 @@ export default {
     file: 'dist/bundle.js',
     format: 'iife',
     name: 'Tracker',
+    strict: false,
   },
   plugins: [resolve(), babel({ babelHelpers: 'bundled' })],
 };

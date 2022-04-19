@@ -14,10 +14,7 @@ context('pointer up 이벤트 테스트', () => {
         focusQuery: '.contents',
         focusOffset: 2,
       });
-
-      cy.get('.log').then((logs) => {
-        cy.wrap(logs[1]).contains('text-select 광주');
-      });
+      cy.contains('text-select 광주');
     });
   });
 });

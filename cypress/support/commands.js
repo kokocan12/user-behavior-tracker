@@ -9,7 +9,7 @@
 // ***********************************************
 
 Cypress.Commands.add('demoPage', { prevSubject: 'optional' }, () => {
-  return cy.visit('http://localhost:1234');
+  return cy.visit('https://bucolic-pie-ca1277.netlify.app/');
 });
 
 Cypress.Commands.add('selection', { prevSubject: true }, (subject, fn) => {

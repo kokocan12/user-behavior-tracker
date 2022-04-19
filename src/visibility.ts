@@ -17,7 +17,7 @@ export function onVisibilityChange() {
 
 export function checkFocusChange() {
   pushEvent({
-    evt: new Event('focus'),
+    evt: new Event(FOCUS_EVENT),
     eventType: FOCUS_EVENT,
     syncType: AsyncEvent,
     timestamp: getCurrentTime(),

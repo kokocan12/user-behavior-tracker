@@ -10,6 +10,7 @@
     "lint-staged": "lint-staged",
     "build": "node scripts/build.js",
     "demo": "parcel demo/index.html --out-dir demo-build",
+    "build:netlify": "yarn build && parcel build demo/index.html --out-dir demo-build",
     "test": "cypress open",
     "dev": "yarn build && npm-run-all --parallel dev:*",
     "dev:watch": "onchange src/**/*.ts -- yarn build",

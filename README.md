@@ -11,7 +11,7 @@ For browsers that do not support requestIdleCallback API (ex. safari, IOS safari
 Polyfill is implemented by referring to React's scheduler.
 
 - Event handlers are not added to all elements on the screen. <br />
-The event handlers required for tracking are added to the root element, so there is no need to add an event handler every time the screen is switched.
+The event handlers required for tracking are added to the root element, so there is no need to add event handlers every time the screen is switched.
 There is no performance hit caused by event bubbling.
 
 ## How can I use it?

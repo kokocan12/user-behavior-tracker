@@ -62,8 +62,6 @@ export function handlePointerMoveEvent({ evt, timestamp }: TEvent, callback: (lo
 
   const imgWalker = document.createTreeWalker(target, NodeFilter.SHOW_ELEMENT, imgTagFilter);
 
-  console.log(imgWalker.currentNode);
-
   if ((imgWalker.currentNode as HTMLElement).tagName === IMG_TAG || imgWalker.nextNode()) {
     const imgTag = imgWalker.currentNode;
     const imgSrc = (imgTag as HTMLElement).getAttribute('src');

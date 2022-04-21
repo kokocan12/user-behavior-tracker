@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: 'dist/esm/index.js',
@@ -9,5 +10,5 @@ export default {
     name: 'Tracker',
     strict: false,
   },
-  plugins: [resolve(), babel({ babelHelpers: 'bundled' })],
+  plugins: [resolve(), babel({ babelHelpers: 'bundled' }), terser()],
 };

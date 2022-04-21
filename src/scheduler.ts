@@ -1,5 +1,6 @@
 import { CLICK_EVENT, handleClickEvent } from './click';
 import { handleKeyboardEvent, KEYBOARD_EVENT } from './keyboard';
+import { handlePointerMoveEvent, POINTER_MOVE_EVENT } from './pointer-move';
 import { handlePointerUpEvent, POINTER_UP_EVENT } from './pointer-up';
 import { FOCUS_EVENT, handleFocusEvent } from './visibility';
 
@@ -184,6 +185,10 @@ function handleEvent(event: TEvent) {
 
     case POINTER_UP_EVENT:
       handlePointerUpEvent(event, pushLog);
+      break;
+
+    case POINTER_MOVE_EVENT:
+      handlePointerMoveEvent(event, pushLog);
       break;
 
     // for test

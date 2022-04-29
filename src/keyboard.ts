@@ -7,7 +7,7 @@ export const KEYBOARD_EVENT = 'keyboard';
 
 let debounceTimer: any = null;
 
-export function onKeyUp(evt: KeyboardEvent) {
+export function onKeyPress(evt: KeyboardEvent) {
   clearTimeout(debounceTimer);
 
   const callback = () => {

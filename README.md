@@ -52,6 +52,7 @@ var Tracker=function(e){function t(e){var t=new Date(e),r=n(t.getHours()),a=n(t.
 Tracker.track(document.body, function(log){console.log(log)})
 ```
 <br/>
+
 ![c](https://user-images.githubusercontent.com/49009864/170848067-74f051a7-acf7-4655-81bd-051c97339eed.gif)
 
 

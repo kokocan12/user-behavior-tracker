@@ -4,11 +4,12 @@
 User-behavior-tracker is a plugin that allows you to track and log user behavior in the browser environment. <br/>
 Track the user's keyboard input, page navigation, text dragging, tab exit, tab return, window exit, window return, and image viewing.
 
+[View Details](https://github.com/kokocan12/user-behavior-tracker/wiki/Intro)
+
 ## Performance aspect
 - When tracking user behavior, it should not affect the performance of your application. <br/>
 Internally, it uses [requestIdleCallback](https://developer.mozilla.org/ko/docs/Web/API/Window/requestIdleCallback) to handle user events asynchronously, so it doesn't adversely affect performance. <br />
-For browsers that do not support requestIdleCallback API (ex. safari, IOS safari), polyfill is supported. <br />
-Polyfill is implemented by referring to React's scheduler.
+For browsers that do not support requestIdleCallback API (ex. safari, IOS safari), polyfill is supported.
 
 - Event handlers are not added to all elements on the screen. <br />
 The event handlers required for tracking are added to the root element, so there is no need to add event handlers every time the screen is switched.
